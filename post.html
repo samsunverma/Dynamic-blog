@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        input, textarea { width: 100%; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1 id="post-title"></h1>
+    <textarea id="post-content" rows="10" readonly></textarea>
+    <button id="edit-button">Edit</button>
+    <button id="save-button" style="display:none;">Save</button>
+    <p id="message" style="color: green;"></p>
+    <button class="delete-button" onclick="deletePost()">Delete Post</button>
+    <script>
+        // Function to get the post ID from the URL
+        function getPostIdFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('postId');         }
+
+        function loadPostData(postId) {
+            const postData = localStorage.getItem(postId);
+            return postData ? JSON.parse(postData) : null;
+        }
+
+        function displayPost(post) {
+            if (post) {
+                document.getElementById('post-title').textContent = post.title;
+                document.getElementById('post-content').value = post.content;
+            } else {
+                document.getElementById('post-title').textContent = 'Post not found.';
+                document.getElementById('post-content').style.display = 'none';
+            }
+        }
+
+        function enableEditing() {
+            
+            const contentField = document.getElementById('post-content');
+            contentField.readOnly = false;
+            document.getElementById('edit-button').style.display = 'none';
+            document.getElementById('save-button').style.display = 'inline';
+        }
+
+       function saveChanges(postId) {
+            const newTitle = document.getElementById('post-title').textContent;
+            const newContent = document.getElementById('post-content').value;
+
+            const updatedPost = {
+                title: newTitle,
+                content: newContent
+            };
+
+            localStorage.setItem(postId, JSON.stringify(updatedPost));
+            document.getElementById('message').textContent = 'Post updated successfully!';
+
+            document.getElementById('post-title').readOnly = true;
+            document.getElementById('post-content').readOnly = true;
+            document.getElementById('edit-button').style.display = 'inline';
+            document.getElementById('save-button').style.display = 'none';
+        }
+
+        function main() {
+            const postId = getPostIdFromUrl();
+            const post = loadPostData(postId);
+            displayPost(post);
+
+            // Set up event listeners
+            document.getElementById('edit-button').addEventListener('click', enableEditing);
+            document.getElementById('save-button').addEventListener('click', () => saveChanges(postId));
+        }
+
+        main();
+    </script>
+</body>
+</html>

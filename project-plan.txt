@@ -1,0 +1,22 @@
+# Project-Plan: dynamic-blog-website
+
+## Project Overview
+This project creates a dynamic-blog-website where end-user can  use CRUD function to blog posts. This website utilizes HTML, CSS, and JavaScript for create multiple pages.
+
+## Technologies
+- HTML
+- CSS
+- JavaScript
+
+## Functionality
+- $$Homepage$$: Lists all posts.
+- $$Create Post$$: To enter post details.
+- $$View/Edit Post$$: Displays post.
+- $$Delete Post$$: Option to remove posts.
+
+
+## Project Structure
+- `index.html`: Displays all blog posted by user.
+- `new-post.html`: Creates new blog post.
+- `post.html`: view and edit a blog post.
+

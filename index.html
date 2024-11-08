@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Blog Homepage</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
+    <title>Blog Posts</title>
+    <style>
+        .post {
+            border: 3px solid #ccc;
+            margin: 12px;
+            padding: 12px;
+        }
+        .title {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog Posts</h1>
+    <div id="post-list"></div>
+    
+    <ul id="new-post"></ul>
+
+    <script>
+
+        function loadBlogPosts() {
+            const postListDiv = document.getElementById('post-list');
+            const blogPosts = JSON.parse(localStorage.getItem('blogPosts'));
+
+            if (blogPosts && Array.isArray(blogPosts)) {
+                blogPosts.forEach(post => {
+                    const postDiv = document.createElement('div');
+                    postDiv.classList.add('post');
+
+                    const titleElement = document.createElement('div');
+                    titleElement.classList.add('title');
+                    titleElement.textContent = post.title;
+
+                    const contentElement = document.createElement('div');
+                    contentElement.textContent = post.content;
+
+                    postDiv.appendChild(titleElement);
+                    postDiv.appendChild(contentElement);
+
+                    postListDiv.appendChild(postDiv);
+                });
+            } else {
+                postListDiv.textContent = 'No blog posts available.';
+            }
+        }
+
+        window.onload = loadBlogPosts;
+    </script>
+</body>
+</html>
